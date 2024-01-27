@@ -106,7 +106,7 @@ class TextToPlaylist():
     
     
     def upload_playlist(self, playlist):
-        title = f"{playlist['title']} ({date.today().strftime("%d/%m/%Y")})"
+        title = f"{playlist['title']} ({date.today().strftime('%d/%m/%Y')})"
         user_id = self.sp.me()['id']
         remote = self.sp.user_playlist_create(user=user_id, name=title, public=False, description=playlist['summary'])
         self.sp.playlist_add_items(remote['id'], [track['id'] for track in playlist['tracks']])

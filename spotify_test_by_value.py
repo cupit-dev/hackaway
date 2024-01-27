@@ -79,4 +79,4 @@ reccs = sp.recommendations(seed_artists=[id for id, _ in top_five_artists], limi
 
 print('We recommend:')
 for track in reccs['tracks']:
-    print(f'  - "{track["name"]}" by {[a['name'] for a in track["artists"]]}')
+    print(f'  - "{track["name"]}" by {[a["name"] for a in track["artists"]]}')

@@ -36,6 +36,29 @@ class EmotionalPlaylistGenerator:
         except openai.Error as e:  # Catching the general OpenAI error
             print(f"An error occurred: {e}")
             return None
+    
+    def transcribe_audio(self, audio_file_path):
+        if not os.path.exists(audio_file_path):
+            return "Error: Audio file not found."
+
+        with open(audio_file_path, "rb") as audio_file:
+            try:
+                self._rate_limit_check()
+                response = self.client.audio.transcriptions.create(
+                    model="whisper-1", 
+                    file=audio_file
+                )
+
+                # Accessing the transcribed text correctly
+                if hasattr(response, 'text'):
+                    return response.text
+                else:
+                    return "Error: Transcription text not found in the response."
+
+            except Exception as e:  # Catching general exceptions
+                print(f"An error occurred: {e}")
+                return None
+        
 
     def analyse_emotion(self, journal_entry):
         completion = self._make_request([

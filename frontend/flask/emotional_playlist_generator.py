@@ -74,6 +74,17 @@ class EmotionalPlaylistGenerator:
             return completion.choices[0].message.content
         else:
             return "Error: Unable to analyse emotion."
+        
+    def playlist_description_generator(self, journal_entry):
+        completion = self._make_request([
+            {"role": "system", "content": f"AI Summary Bot, your task is to create a Spotify playlist description based on a user's journal entry. Analyse the emotional nuances within the journal to understand the user's current mood. Your goal is to craft a short, emotive summary that encapsulates the mood of the music and connects deeply with the feelings expressed in the journal. The summary should be concise, capturing the essence of the playlist in a way that resonates with the user's emotional state as revealed in their journal. User’s journal entry: {journal_entry}"},
+            {"role": "user", "content": journal_entry}
+        ])
+
+        if completion:
+            return completion.choices[0].message.content
+        else:
+            return "Error: Unable to provide playlist description."
 
     def get_music_parameters(self, emotion_summary):
         # Dynamically create a list of parameter names for the prompt

@@ -77,6 +77,7 @@ class TextToPlaylist():
 
         emotion_summary = self.generator.analyse_emotion(journal_entry)
         music_parameters = self.generator.get_music_parameters(emotion_summary)
+        playlist_description = self.generator.playlist_description_generator(journal_entry)
 
         spotify_params = {}
         for line in music_parameters.split('\n'):
@@ -95,7 +96,8 @@ class TextToPlaylist():
         return {
             'tracks': reccs['tracks'],
             'prompt': journal_entry,
-            'summary': emotion_summary,
+            # 'summary': emotion_summary,
+            'summary': playlist_description,
             'sentiment': spotify_params,
             'title': title,
             'artwork': artwork,

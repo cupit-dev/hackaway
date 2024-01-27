@@ -1,10 +1,11 @@
 from openai import OpenAI
 import time
 import openai
+import os
 
 class EmotionalPlaylistGenerator:
-    def __init__(self):
-        self.client = OpenAI()
+    def __init__(self, api_key=None):
+        self.client = OpenAI(api_key=(api_key if api_key else os.env('OPENAI_API_KEY')))
         self.last_request_time = None
         self.request_interval = 1  # seconds between requests
 
@@ -14,7 +15,7 @@ class EmotionalPlaylistGenerator:
             "target_danceability": "a score from 0 to 1 of how danceable the user is feeling, with higher scores indicating a greater desire to dance",
             "target_energy": "a measure from 0 to 1 of the intensity and activity of the music, where higher values represent more energetic tracks",
             # "target_tempo": "the speed of the track measured in Beats Per Minute (BPM), where higher values represent faster tempo",
-            "min_acousticness": "a measure from 0 to 1 of the likelihood a track is acoustic, with higher values representing more acoustic (less electronic) sounds",
+            "target_acousticness": "a measure from 0 to 1 of the likelihood a track is acoustic, with higher values representing more acoustic (less electronic) sounds",
             # More parameters can be added here
         }
 

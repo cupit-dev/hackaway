@@ -5,7 +5,7 @@ import os
 
 class EmotionalPlaylistGenerator:
     def __init__(self, api_key=None):
-        self.client = OpenAI(api_key=(api_key if api_key else os.env('OPENAI_API_KEY')))
+        self.client = OpenAI(api_key=(api_key if api_key else os.environ['OPENAI_API_KEY']))
         self.last_request_time = None
         self.request_interval = 1  # seconds between requests
 
@@ -14,9 +14,11 @@ class EmotionalPlaylistGenerator:
             "target_valence": "a happiness score from 0 to 1, where higher values represent more positive mood",
             "target_danceability": "a score from 0 to 1 of how danceable the user is feeling, with higher scores indicating a greater desire to dance",
             "target_energy": "a measure from 0 to 1 of the intensity and activity of the music, where higher values represent more energetic tracks",
-            # "target_tempo": "the speed of the track measured in Beats Per Minute (BPM), where higher values represent faster tempo",
-            "target_acousticness": "a measure from 0 to 1 of the likelihood a track is acoustic, with higher values representing more acoustic (less electronic) sounds",
-            # More parameters can be added here
+            "target_acousticness": "a measure from 0 to 1 of the likelihood a track is acoustic, with higher values representing more acoustic sounds",
+            "target_instrumentalness": "a measure from 0 to 1 indicating the extent to which a track contains no vocals, with higher values representing more instrumental tracks",
+            "target_liveness": "a score from 0 to 1 indicating the presence of an audience in the recording, where higher values represent more live-sounding tracks",
+            "target_speechiness": "a measure from 0 to 1 indicating the presence of spoken words in a track, with higher values representing more speech-like tracks",
+            "target_tempo": "the speed of the track measured in Beats Per Minute (BPM), where higher values represent faster tempo",
         }
 
     def _rate_limit_check(self):

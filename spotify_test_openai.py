@@ -81,7 +81,7 @@ print('Stats:')
 print(f'To summarise: {emotion_summary}')
 print(f'You\'re feeling {valence * 100}% happy, {danceability * 100}% danceable, {energy * 100}% energetic, and {acousticness * 100}% acoustic.')
 print(f'Your top 10 genres are: {", ".join([g for g, _ in genre_count.most_common(10)])}')
-print(f'Your top 5 artists, spread across your top 5ish genres, are: {', '.join([a for _, a in top_five_artists])}')
+print(f'Your top 5 artists, spread across your top 5ish genres, are: {", ".join([a for _, a in top_five_artists])}')
 
 limit = input('How many tracks to recommend? (at most, 1-50): ')
 limit = int(''.join(c for c in limit if c.isdigit()))
@@ -91,4 +91,4 @@ reccs = sp.recommendations(seed_artists=[id for id, _ in top_five_artists], limi
 
 print('We recommend:')
 for track in reccs['tracks']:
-    print(f'  - "{track["name"]}" by {[a['name'] for a in track["artists"]]}')
+    print(f'  - "{track["name"]}" by {[a["name"] for a in track["artists"]]}')

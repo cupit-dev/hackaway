@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+.text-input-container {
+  margin: 20px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.parent {
+  border: 1px solid black;
+  margin: 1rem;
+  padding: 2rem 2rem;
+  text-align: center;
+}
+.child {
+  display: inline-block;
+  border: 1px solid grey;
+  padding: 1rem 1rem;
+  vertical-align: middle;
+}
+
+.child2 {
+  display: inline-block;
+  padding: 5px 5px 5px 0px;
+  vertical-align: middle;
+}
+
+.playlistTitle {
+  font-size: x-large;
+  color: yellow;
+  font-weight: bold;
+}
+
+.playlistDescription {
+  font-size: medium;
+  color: orange;
+  font-style: italic;
+}
+
+.playlistContainer {
+  margin-top: 70px;
+  width: 100%;
+  padding: 20px;
+  background: purple;
+}
+
+.trackContainer {
+  padding: 10px;
+  background: pink;
+  margin-top: 5px;
+  color: black;
+}

@@ -16,21 +16,22 @@ function App() {
   // object for storing and using data
   const [inputValue, setInputValue] = useState(""); // State to hold the input value
 
-  // const [data, setdata] = useState({
-  // 	name: "",
-  // 	age: 0,
-  // 	date: "",
-  // 	programming: "",
-  // });
-
   const [data, setdata] = useState({
-    description: "",
+    summary: "",
     title: "",
     tracks: [
       {
-        artists: [],
-        title: "",
-        track_id: "",
+        name: "",
+        album: {
+          images: [{
+            height: '',
+            width: '',
+            url: ''
+          }]
+        },
+        artists: [{
+          name: ''
+        }]
       },
     ],
   });
@@ -39,6 +40,7 @@ function App() {
   const handleInputChange = (e: any) => {
     setInputValue(e.target.value);
   };
+
 
   // Function to handle form submission
   const handleSubmit = async (e: any) => {
@@ -55,6 +57,24 @@ function App() {
         // Handle successful submission here
         const jsonResponse = await response.json();
         console.log("Response from Flask:", jsonResponse);
+       
+       
+        var tracks: any[] = [];
+        var artists: any[] = [];
+
+        Object.keys(jsonResponse.tracks).forEach(function (key) {
+          tracks.push(jsonResponse.tracks[key]);
+          // artists.push((jsonResponse.tracks[key])[artists[0]])
+          
+          console.log("UUID:", jsonResponse.tracks[key]);
+
+        });
+
+        setdata({
+          summary: jsonResponse.summary,
+          title: jsonResponse.title,
+          tracks: tracks,
+        });
       } else {
         // Handle errors here
         console.error("Failed to send data to Flask");
@@ -63,41 +83,6 @@ function App() {
       console.error("Error submitting form:", error);
     }
   };
-
-  // Using useEffect for single rendering
-  // useEffect(() => {
-  //   fetch('http://localhost:5000/data')
-  //   .then((res) =>
-  // 		res.json().then((data) => {
-  // 			// Setting a data from api
-  // 			setdata({
-  // 				name: data.Name,
-  // 				age: data.Age,
-  // 				date: data.Date,
-  // 				programming: data.programming,
-  // 			});
-  // 		})
-  // 	);
-  // }, []);
-
-  useEffect(() => {
-    fetch("http://localhost:5000/playlist").then((res) =>
-      res.json().then((data) => {
-        var arr: any[] = [];
-        Object.keys(data.tracks).forEach(function (key) {
-          arr.push(data.tracks[key]);
-        });
-        // Setting a data from api
-        setdata({
-          description: data.description,
-          title: data.title,
-          tracks: arr,
-        });
-
-        // var json = {"active":{"label":"Active","value":"12"},"automatic":{"label":"Automatic","value":"8"},"waiting":{"label":"Waiting","value":"1"},"manual":{"label":"Manual","value":"3"}};
-      })
-    );
-  }, []);
 
   return (
     <div className="App">
@@ -164,7 +149,7 @@ function App() {
             <div className="child2">
               <p className="playlistTitle">{data.title}</p>
 
-              <p className="playlistDescription">{data.description}</p>
+              <p className="playlistDescription">{data.summary}</p>
             </div>
             <button
                 style={{ float: "right"}}
@@ -184,13 +169,15 @@ function App() {
               <div className="trackContainer">
                 <Image
                   className="child2"
-                  src={trackCover}
+                  src={item.album.images[0].url}
                   alt="Logo"
                   width={50}
                   height={50}
                 />
-
-                <p className="child2">{item.title}</p>
+                <div className="child2">
+                <p><b>{item.name}</b></p>
+                <p>{item.artists[0].name}</p>
+                </div>
               </div>
             ))}
           </div>

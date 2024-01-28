@@ -11,6 +11,7 @@ CORS(app)
 generator = TextToPlaylist(secrets_file='./secrets.yaml')
 storage = {}
 
+currentUUID = ''
 @app.route('/new_playlist', methods=['POST'])
 def on_new_playlist():
     '''Given a journal entry, generate a playlist and return a UUID used to access it'''
@@ -22,8 +23,6 @@ def on_new_playlist():
 
     return on_playlist(id)
 
-    # return {'uuid': id}
-    
 
 @app.route('/playlist/<uuid>/upload', methods=['GET', 'POST'])
 def on_upload_playlist(uuid):
@@ -43,24 +42,7 @@ def on_playlist(uuid):
         return f'Playlist {uuid} not found', 400
     return storage[uuid]
     
-    # return uuid
-    
-    # return {
-    #     'title': 'My Playlist',
-    #     'description': 'Example playlist blah blah blah',
-    #     'tracks': [
-    #         {
-    #             'name': 'Tune 1',
-    #             'artists': ['artist 1', 'artist 2'],  # ths is actually an object but artists[x]['name'] works
-    #             'track_id': 'qwertyuiop'
-    #         },
-    #         {
-    #             'title': 'Banger 2',
-    #             'artists': ['artist 1', 'artist 2'],
-    #             'track_id': 'qwertyuiop'
-    #         }
-    #     ]
-    # }
+    # return uuid 
 
 @app.route('/cover_art/<uuid>')
 def on_playlist_(uuid):

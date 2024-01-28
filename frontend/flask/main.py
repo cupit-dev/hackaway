@@ -1,6 +1,8 @@
+from datetime import date
 import os
 import sys
 import uuid
+import json
 
 from flask import Flask, request, jsonify
 from text_to_playlist import TextToPlaylist
@@ -11,6 +13,12 @@ CORS(app)
 generator = TextToPlaylist(secrets_file='./secrets.yaml')
 storage = {}
 
+FAKE_HISTORIC = True
+
+if FAKE_HISTORIC:
+    with open('historic.json', 'r', encoding='utf-8') as f:
+        storage = json.load(f)
+
 @app.route('/new_playlist', methods=['POST'])
 def on_new_playlist():
     '''Given a journal entry, generate a playlist and return a UUID used to access it'''
@@ -19,6 +27,7 @@ def on_new_playlist():
     results = generator.text_to_song_list(prompt, generate_artwork=generate_artwork)
     id = str(uuid.uuid4())
     results['uuid'] = id
+    results['date'] = date.today().isoformat()
     storage[id] = results
     return on_playlist(id)
 
@@ -43,6 +52,18 @@ def on_playlist(uuid):
     if uuid not in storage:
         return f'Playlist {uuid} not found', 400
     return storage[uuid]
+
+@app.route('/dump_data')
+def on_dump_data():
+    # This whole concept about as inefficient as it could possibly be, but it'll do for a demo
+    dump = {}
+    for item in list(storage.values()):
+        date = item['date']
+        if date in dump:
+            dump[date].append(item['sentiment'])
+        else:
+            dump[date] = [item['sentiment']]
+    return dump
 
 
 if __name__ == "__main__":

@@ -1,0 +1,41 @@
+{
+    "badfjlnsdjkfbskhdbfk": {
+        "date": "2024-01-27",
+        "sentiment": {
+            "target_acousticness": 0.3,
+            "target_danceability": 0.4,
+            "target_energy": 0.6,
+            "target_instrumentalness": 0.5,
+            "target_liveness": 0.3,
+            "target_speechiness": 0.4,
+            "target_tempo": 90.0,
+            "target_valence": 0.2
+        }
+    },
+    "sdsfjlnsdjksdasddbfk": {
+        "date": "2024-01-27",
+        "sentiment": {
+            "target_acousticness": 0.6,
+            "target_danceability": 0.5,
+            "target_energy": 0.6,
+            "target_instrumentalness": 0.7,
+            "target_liveness": 0.2,
+            "target_speechiness": 0.4,
+            "target_tempo": 95.0,
+            "target_valence": 0.4
+        }
+    },
+    "mmadfjlnsdjkswerdbfk": {
+        "date": "2024-01-26",
+        "sentiment": {
+            "target_acousticness": 0.3,
+            "target_danceability": 0.9,
+            "target_energy": 0.8,
+            "target_instrumentalness": 0.5,
+            "target_liveness": 0.85,
+            "target_speechiness": 0.2,
+            "target_tempo": 110.0,
+            "target_valence": 0.95
+        }
+    }
+}

@@ -1,5 +1,6 @@
 #! ./venv/bin/python3
 
+from datetime import date
 import yaml
 import os.path
 import spotipy
@@ -10,7 +11,7 @@ import re
 from emotional_playlist_generator import EmotionalPlaylistGenerator
 
 class TextToPlaylist():
-    def __init__(self, sp=None, spotify_auth=None, openai_key=None, limit=100):
+    def __init__(self, sp=None, spotify_auth=None, openai_key=None, secrets_file=None, limit=100):
 
         if sp:
             self.sp = sp
@@ -20,7 +21,7 @@ class TextToPlaylist():
             self.openai_key = openai_key
 
         if not openai_key or not spotify_auth:
-            if not os.path.isfile('./secrets.yaml'):
+            if not os.path.isfile('./secrets.yaml' if not secrets_file else secrets_file):
                 print('No secrets file - aborting')
                 raise FileNotFoundError
 
@@ -36,7 +37,7 @@ class TextToPlaylist():
                     raise yaml.YAMLError
             
         if not sp:
-            auth_manager = SpotifyOAuth(client_id=self.spotify_auth['client_id'], client_secret=self.spotify_auth['secret'], redirect_uri='http://localhost:5000', scope='user-top-read')
+            auth_manager = SpotifyOAuth(client_id=self.spotify_auth['client_id'], client_secret=self.spotify_auth['secret'], redirect_uri='http://localhost:5000', scope='user-top-read,playlist-modify-private,user-read-private,user-read-email,ugc-image-upload')
             self.sp = spotipy.Spotify(auth_manager=auth_manager)
 
         self.generator = EmotionalPlaylistGenerator(api_key=self.openai_key)
@@ -74,16 +75,32 @@ class TextToPlaylist():
                     top_five_artists.append(artist)
                     break
 
-        # print(genre_count.most_common(10))
-        # print(genre_to_top_artists)
-        # print(top_five_artists)
-
         emotion_summary = self.generator.analyse_emotion(journal_entry)
         music_parameters = self.generator.get_music_parameters(emotion_summary)
 
-        valence = float(re.search(r'^.*target_valence.*=(.*)', music_parameters, flags=re.MULTILINE).group(1))
-        danceability = float(re.search(r'^.*target_danceability.*=(.*)', music_parameters, flags=re.MULTILINE).group(1))
-        energy = float(re.search(r'^.*target_energy.*=(.*)', music_parameters, flags=re.MULTILINE).group(1))
-        acousticness = float(re.search(r'^.*target_acousticness.*=(.*)', music_parameters, flags=re.MULTILINE).group(1))
-        reccs = self.sp.recommendations(seed_artists=[id for id, _ in top_five_artists], limit=self.limit ,target_danceability=danceability, target_valence=valence, target_energy=energy, target_acousticness=acousticness)
-        return reccs
+        spotify_params = {}
+        for line in music_parameters.split('\n'):
+            match = re.match(r'^.*target_(\w+).*=(.*)$', line)
+            if match:
+                param, value = match.groups()
+                spotify_params[f'target_{param}'] = float(value)
+
+        reccs = self.sp.recommendations(seed_artists=[id for id, _ in top_five_artists], limit=self.limit, **spotify_params)
+        title = self.generator.get_playlist_name(emotion_summary)
+
+        return {
+            'tracks': reccs['tracks'],
+            'prompt': journal_entry,
+            'summary': emotion_summary,
+            'sentiment': spotify_params,
+            'title': title,
+            'artwork': None,
+            'uploaded': False
+        }
+    
+    
+    def upload_playlist(self, playlist):
+        title = f"{playlist['title']} ({date.today().strftime("%d/%m/%Y")})"
+        user_id = self.sp.me()['id']
+        remote = self.sp.user_playlist_create(user=user_id, name=title, public=False, description=playlist['summary'])
+        self.sp.playlist_add_items(remote['id'], [track['id'] for track in playlist['tracks']])

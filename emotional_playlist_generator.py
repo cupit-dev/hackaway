@@ -90,7 +90,30 @@ class EmotionalPlaylistGenerator:
         else:
             return "Error: Unable to get music parameters."
 
+    def get_playlist_name(self, message):
+        # Generate a title for the playlist
+        system_prompt = f"You are a playlist title generating bot - given a journal entry summarising a user's day or feelings, generate a short title for a Spotify playlist inspired by their current mood. Exclude any punctuation."
+        completion = self._make_request([
+            {'role': 'system', 'content': system_prompt},
+            {'role': 'user', 'content': message}
+        ])
+        if completion:
+            return completion.choices[0].message.content
+        else:
+            return "My playlist"
 
+    def get_playlist_cover(self, message):
+        return None
+        prompt = "Generate an album cover for an album designed to reflect a user's mood. Avoid adding text, and show just the art itself as if it was ready to be printed. Make it as relevant as possible to the following prompt, with specific details where possible: "
+        response = self.client.images.generate(
+            model="dall-e-3",
+            prompt=prompt + message,
+            size="1024x1024",
+            quality="standard",
+            response_format='b64_json',
+            n=1
+        )
+        
 
 # # Usage
 # generator = EmotionalPlaylistGenerator()

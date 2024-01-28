@@ -1,5 +1,6 @@
 #! ./venv/bin/python3
 
+from datetime import date
 import yaml
 import os.path
 import spotipy
@@ -26,7 +27,7 @@ generator = EmotionalPlaylistGenerator(api_key=openai_key)
 
 # auth_manager = SpotifyClientCredentials(client_id=spotify_auth['client_id'], client_secret=spotify_auth['secret'])
 print('Authenticating, please wait...')
-auth_manager = SpotifyOAuth(client_id=spotify_auth['client_id'], client_secret=spotify_auth['secret'], redirect_uri='http://localhost:5000', scope='user-top-read')
+auth_manager = SpotifyOAuth(client_id=spotify_auth['client_id'], client_secret=spotify_auth['secret'], redirect_uri='http://localhost:5000', scope='user-top-read,playlist-modify-private,user-read-private,user-read-email,ugc-image-upload')
 sp = spotipy.Spotify(auth_manager=auth_manager)
 print('Auth successful!')
 
@@ -91,4 +92,11 @@ reccs = sp.recommendations(seed_artists=[id for id, _ in top_five_artists], limi
 
 print('We recommend:')
 for track in reccs['tracks']:
-    print(f'  - "{track["name"]}" by {[a["name"] for a in track["artists"]]}')
+    print(f'  - "{track["name"]}" by {[a['name'] for a in track["artists"]]}')
+
+inp = input('Put these songs into a playlist? (y/n): ').upper()
+if len(inp) > 0 and inp[0] == 'Y':
+    title = f'{generator.get_playlist_name(journal_entry)} ({date.today().strftime("%d/%m/%Y")})'
+    user_id = sp.me()['id']
+    playlist = sp.user_playlist_create(user=user_id, name=title, public=False, description=emotion_summary)
+    sp.playlist_add_items(playlist['id'], [track['id'] for track in reccs['tracks']])

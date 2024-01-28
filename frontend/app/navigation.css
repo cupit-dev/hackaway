@@ -1,0 +1,46 @@
+/* Navigation.css */
+
+.navbar {
+    background-image: linear-gradient(to right, #853483, #794f78);
+    color: #ffffff;
+    padding: 10px 10px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background-color: #333;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+.nav-link1 {
+    color: white; /* White text color for links */
+    text-decoration: none; /* Remove underline from links */
+    margin-right: 20px; /* Space between links */
+    font-size: xx-large;
+    /* font-weight: bold; */
+}
+
+.nav-link2 {
+    color: rgb(1, 1, 29); /* White text color for links */
+    text-decoration: none; /* Remove underline from links */
+    margin-right: 20px; /* Space between links */
+    font-size: large;
+    font-style: bolder;
+    margin-left: 10px;
+    font-weight: bolder;
+    
+}
+
+.nav-link-right {
+    color: #ffffff; /* White text color for links */
+    margin-left: 64%;
+    background: black;
+    padding: 5px 10px 5px 10px;
+    border-radius: 10px;
+    
+}
+
+.nav-link:hover {
+    text-decoration: underline; /* Underline links on hover for better user experience */
+}

@@ -5,7 +5,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "MoodTune",
+  title: "Sentiment",
   description: "Create a Playlist based on your current mood",
 };
 

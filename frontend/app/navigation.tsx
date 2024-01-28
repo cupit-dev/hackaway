@@ -15,7 +15,7 @@ function Navigation() {
                   height={50}
                 /></a>
             <a href="/" className="nav-link1">SENTIMENT</a>
-            <a href="http://127.0.0.1:5000/" className="nav-link2">Trends</a>
+            <a href="http://127.0.0.1:5000/" className="nav-link2" target='_blank'>Trends</a>
             <a href="/login" className="nav-link-right">Log in to Spotify</a>
         </nav>
     );

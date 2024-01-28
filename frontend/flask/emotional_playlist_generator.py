@@ -1,7 +1,11 @@
+import json
 from openai import OpenAI
 import time
 import openai
 import os
+from PIL import Image
+from io import BytesIO
+import base64
 
 class EmotionalPlaylistGenerator:
     def __init__(self, api_key=None):
@@ -103,7 +107,6 @@ class EmotionalPlaylistGenerator:
             return "My playlist"
 
     def get_playlist_cover(self, message):
-        return None
         prompt = "Generate an album cover for an album designed to reflect a user's mood. Avoid adding text, and show just the art itself as if it was ready to be printed. Make it as relevant as possible to the following prompt, with specific details where possible: "
         response = self.client.images.generate(
             model="dall-e-3",
@@ -113,6 +116,20 @@ class EmotionalPlaylistGenerator:
             response_format='b64_json',
             n=1
         )
+        raw = response.data[0].b64_json
+        ###### DALLE is expensive, develop with this mess
+        # raw = {'data': response.data[0].b64_json}
+        # with open('data.json', 'w', encoding='utf-8') as f:
+        #     json.dump(raw, f, ensure_ascii=False, indent=4)
+        # with open('data.json', 'r', encoding='utf-8') as f:
+        #     raw = json.load(f)['data']
+        im = Image.open(BytesIO(base64.b64decode(raw)))
+        im = im.resize((400, 400))
+        buff = BytesIO()
+        im.save(buff, format="JPEG", optimize=True)
+        # with open('out.json', 'w', encoding='utf-8') as f:
+        #     json.dump(base64.b64encode(buff.getvalue()).decode(), f, ensure_ascii=False, indent=4)
+        return base64.b64encode(buff.getvalue())
         
 
 # # Usage

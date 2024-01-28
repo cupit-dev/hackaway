@@ -52,7 +52,7 @@ class TextToPlaylist():
 #   - Get the top artist that hasn't already been picked, once per genre, up to a maximum of five artists
 #   - use the recommendations feature to generate a short playlist with a valence based on their mood
 
-    def text_to_song_list(self, journal_entry):
+    def text_to_song_list(self, journal_entry, generate_artwork=False):
         artists = self.sp.current_user_top_artists(limit=50, time_range='medium_term')
 
         genre_count = Counter()
@@ -88,13 +88,17 @@ class TextToPlaylist():
         reccs = self.sp.recommendations(seed_artists=[id for id, _ in top_five_artists], limit=self.limit, **spotify_params)
         title = self.generator.get_playlist_name(emotion_summary)
 
+        artwork = None
+        if generate_artwork:
+            artwork = self.generator.get_playlist_cover(emotion_summary)
+
         return {
             'tracks': reccs['tracks'],
             'prompt': journal_entry,
             'summary': emotion_summary,
             'sentiment': spotify_params,
             'title': title,
-            'artwork': None,
+            'artwork': artwork,
             'uploaded': False
         }
     

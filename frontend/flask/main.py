@@ -11,16 +11,18 @@ CORS(app)
 generator = TextToPlaylist(secrets_file='./secrets.yaml')
 storage = {}
 
-currentUUID = ''
+# Enable to generate album covers with DALLE-3
+# This costs about 5p a pop, so use sparingly
+GENERATE_ARTWORK = True
+
 @app.route('/new_playlist', methods=['POST'])
 def on_new_playlist():
     '''Given a journal entry, generate a playlist and return a UUID used to access it'''
     prompt = request.json['prompt']
-    results = generator.text_to_song_list(prompt)
+    results = generator.text_to_song_list(prompt, generate_artwork=GENERATE_ARTWORK)
     id = str(uuid.uuid4())
     results['uuid'] = id
     storage[id] = results
-
     return on_playlist(id)
 
 
@@ -31,6 +33,9 @@ def on_upload_playlist(uuid):
         return f'Playlist {uuid} not found', 400
     playlist = storage[uuid]
     generator.upload_playlist(playlist)
+    if playlist['artwork']:
+        # Upload artwork here
+        pass
     storage[uuid]['uploaded'] = True
     return 'Playlist added', 201
 

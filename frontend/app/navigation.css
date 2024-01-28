@@ -1,9 +1,9 @@
 /* Navigation.css */
 
 .navbar {
-    background-image: linear-gradient(to right, #007bff, #014184);
+    background-image: linear-gradient(to right, #853483, #794f78);
     color: #ffffff;
-    padding: 10px 20px;
+    padding: 10px 10px;
     display: flex;
     align-items: center;
     overflow: hidden;
@@ -14,26 +14,27 @@
 }
 
 .nav-link1 {
-    color: magenta; /* White text color for links */
+    color: white; /* White text color for links */
     text-decoration: none; /* Remove underline from links */
     margin-right: 20px; /* Space between links */
     font-size: xx-large;
-    font-weight: bolder;
+    /* font-weight: bold; */
 }
 
 .nav-link2 {
-    color: #ffffff; /* White text color for links */
+    color: rgb(1, 1, 29); /* White text color for links */
     text-decoration: none; /* Remove underline from links */
     margin-right: 20px; /* Space between links */
     font-size: large;
-    font-style: bold;
+    font-style: bolder;
     margin-left: 10px;
+    font-weight: bolder;
     
 }
 
 .nav-link-right {
     color: #ffffff; /* White text color for links */
-    margin-left: 69%;
+    margin-left: 64%;
     background: black;
     padding: 5px 10px 5px 10px;
     border-radius: 10px;

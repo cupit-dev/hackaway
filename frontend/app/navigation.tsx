@@ -2,11 +2,19 @@
 
 import React from 'react';
 import './navigation.css'; // Importing the CSS file for styling
+import sentimentLogo from "./images/sentimentLogo.png";
+import Image from "next/image";
 
 function Navigation() {
     return (
         <nav className="navbar">
-            <a href="/" className="nav-link1">MoodTune</a>
+            <a href="/" style={{marginRight: '10px'}}><Image
+                  src={sentimentLogo}
+                  alt="Logo"
+                  width={50}
+                  height={50}
+                /></a>
+            <a href="/" className="nav-link1">SENTIMENT</a>
             <a href="/trends" className="nav-link2">Trends</a>
             <a href="/login" className="nav-link-right">Log in to Spotify</a>
         </nav>

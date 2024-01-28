@@ -15,10 +15,12 @@ function App() {
   // usestate for setting a javascript
   // object for storing and using data
   const [inputValue, setInputValue] = useState(""); // State to hold the input value
+  const backend_url = "http://localhost:5001"
 
   const [data, setdata] = useState({
     summary: "",
     title: "",
+    uuid: "",
     tracks: [
       {
         name: "",
@@ -41,12 +43,18 @@ function App() {
     setInputValue(e.target.value);
   };
 
+  // Function to trigger upload of playlist to Spotify
+  const handleUploadPlaylist = (uuid: any) => {
+    fetch(backend_url + "/playlist/" + uuid + "/upload")
+    alert('Playlist has been added to your Spotify!')
+  };
+
 
   // Function to handle form submission
   const handleSubmit = async (e: any) => {
     e.preventDefault(); // Prevent default form submission behavior
     try {
-      const response = await fetch("http://localhost:5001/new_playlist", {
+      const response = await fetch(backend_url + "/new_playlist", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -73,6 +81,7 @@ function App() {
         setdata({
           summary: jsonResponse.summary,
           title: jsonResponse.title,
+          uuid: jsonResponse.uuid,
           tracks: tracks,
         });
       } else {
@@ -155,6 +164,7 @@ function App() {
                 style={{ float: "right"}}
                 className="child2 group rounded-lg border border-transparent px-5 py-4 transition-colors hover:bg-gray-100 hover:dark:bg-neutral-800/30"
                 type="submit"
+                onClick={() => handleUploadPlaylist(data.uuid)}
               >
                 <Image
                 

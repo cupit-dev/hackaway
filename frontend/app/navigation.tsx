@@ -1,7 +1,7 @@
 // Navigation.js
 
 import React from 'react';
-import './Navigation.css'; // Importing the CSS file for styling
+import './navigation.css'; // Importing the CSS file for styling
 
 function Navigation() {
     return (

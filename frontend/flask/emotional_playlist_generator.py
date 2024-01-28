@@ -129,7 +129,7 @@ class EmotionalPlaylistGenerator:
         im.save(buff, format="JPEG", optimize=True)
         # with open('out.json', 'w', encoding='utf-8') as f:
         #     json.dump(base64.b64encode(buff.getvalue()).decode(), f, ensure_ascii=False, indent=4)
-        return base64.b64encode(buff.getvalue())
+        return base64.b64encode(buff.getvalue()).decode()
         
 
 # # Usage

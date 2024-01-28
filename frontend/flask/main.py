@@ -13,7 +13,7 @@ storage = {}
 
 # Enable to generate album covers with DALLE-3
 # This costs about 5p a pop, so use sparingly
-GENERATE_ARTWORK = True
+GENERATE_ARTWORK = False
 
 @app.route('/new_playlist', methods=['POST'])
 def on_new_playlist():

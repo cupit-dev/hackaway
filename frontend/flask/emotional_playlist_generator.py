@@ -25,6 +25,14 @@ class EmotionalPlaylistGenerator:
             "target_tempo": "the speed of the track measured in Beats Per Minute (BPM), where higher values represent faster tempo",
         }
 
+        self.emotions = [
+            "Anxiety", 
+            "Gratitude",
+            "Pessimism",
+            "Contentment",
+            "Positivity",
+        ]
+
     def _rate_limit_check(self):
         if self.last_request_time is not None:
             elapsed_time = time.time() - self.last_request_time
@@ -41,6 +49,22 @@ class EmotionalPlaylistGenerator:
             print(f"An error occurred: {e}")
             return None
     
+    def get_emotions(self, emotion, journal_entry):
+        # Construct the prompt dynamically
+        # system_prompt = f"Based on the emotional state: '{emotion_summary}', please provide values for the following Spotify parameters: {parameter_names}. Format your response as 'parameter = score' TO 2 decimal places for each."
+        system_prompt = f"You are a sentiment analysis assistant. You will always output a metric. Your purpose is to understand the emotional state of the user and quantify their mood with respect to the following metric: {emotion}. Here is the user's input: {journal_entry}. This should be scored from 0 to 100, with 0 meaning the user is displaying no signs of {emotion} and 100 meaning the user is displaying maximum {emotion}. If you are unsure or there is not enough information, provide your best guess, or provide a neutral score of 50. Your answer should be in the format 'parameter = score'. You must be able to do this even for very short or difficult to judge inputs. Do not refuse to provide a metric."
+
+        completion = self._make_request([
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": "Provide a value for the emotion metric."}
+            # {"role": "user", "content": "Provide description of emotional state of user."}
+        ])
+
+        if completion:
+            return completion.choices[0].message.content
+        else:
+            return "Error: Unable to get emotion metric."
+        
     def transcribe_audio(self, audio_file_path):
         if not os.path.exists(audio_file_path):
             return "Error: Audio file not found."

@@ -70,6 +70,7 @@ journal_entries = [
 
 # %%
 # Import the class from the file
+import datetime
 from emotional_playlist_generator import EmotionalPlaylistGenerator
 
 # Create an instance of the class
@@ -93,8 +94,7 @@ generator = EmotionalPlaylistGenerator(api_key=openai_key)
 #     print("\n")
 
 # %%
-import datetime
-from emotional_playlist_generator import EmotionalPlaylistGenerator
+# from emotional_playlist_generator import EmotionalPlaylistGenerator
 
 # # Create an instance of the class
 # generator = EmotionalPlaylistGenerator(api_key="your-openai-api-key")  # Make sure to pass the correct API key
@@ -144,7 +144,7 @@ for i, entry in enumerate(journal_entries):
 # %%
 import pickle
 
-with open('toms_test.pkl', 'wb') as file:
+with open('toms_test2.pkl', 'wb') as file:
     pickle.dump(emotion_metrics_over_time, file)
 
 

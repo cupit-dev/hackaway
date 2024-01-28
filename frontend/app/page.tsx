@@ -7,6 +7,8 @@ import Navigation from "./navigation";
 import trackCover from "./images/mockPlaylist1.webp";
 import playlistCover from "./images/playlistCover2.jpeg";
 import plus from "./images/plus.png";
+import saveLogo from "./images/saveLogo.png";
+
 
 import Image from "next/image";
 function App() {
@@ -172,7 +174,7 @@ function App() {
               >
                 <Image
                 
-                src={plus}
+                src={saveLogo}
                 alt="Logo"
                 width={100}
                 height={100}

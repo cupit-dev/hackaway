@@ -4,6 +4,8 @@ Throw your thoughts and feelings into Sentiment, and it'll spit out a personalis
 
 Furthermore, Sentiment also keeps track of your journal entries, and leverages the wonderful Taipy framework to provide a fascinating and easy-to-digest statistical insight into how your mood changes over time.
 
+Video demo: https://www.youtube.com/watch?v=mIaQChFXeXA
+
 
 ## Installation and usage
 Notes:

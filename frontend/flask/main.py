@@ -15,12 +15,13 @@ storage = {}
 def on_new_playlist():
     '''Given a journal entry, generate a playlist and return a UUID used to access it'''
     prompt = request.json['prompt']
-    print('please work', prompt)
     results = generator.text_to_song_list(prompt)
     id = str(uuid.uuid4())
+    results['uuid'] = id
     storage[id] = results
 
     return on_playlist(id)
+
     # return {'uuid': id}
     
 
@@ -42,6 +43,7 @@ def on_playlist(uuid):
         return f'Playlist {uuid} not found', 400
     return storage[uuid]
     
+    # return uuid
     
     # return {
     #     'title': 'My Playlist',

@@ -11,11 +11,13 @@ import saveLogo from "./images/saveLogo.png";
 import micIcon from "./images/micButton.png";
 
 import Image from "next/image";
+import { Fascinate_Inline } from "next/font/google";
 function App() {
   // usestate for setting a javascript
   // object for storing and using data
   const [inputValue, setInputValue] = useState(""); // State to hold the input value
   const [checkboxValue, setCheckboxValue] = useState("");
+  const [loading, setLoading] = useState(false);
   const backend_url = "http://localhost:5001";
 
   const [data, setdata] = useState({
@@ -66,6 +68,7 @@ function App() {
   const handleSubmit = async (e: any) => {
     e.preventDefault(); // Prevent default form submission behavior
     try {
+      setLoading(true)
       const response = await fetch(backend_url + "/new_playlist", {
         method: "POST",
         headers: {
@@ -76,6 +79,7 @@ function App() {
           generate_artwork: checkboxValue,
         }), // Send the state value as JSON
       });
+      setLoading(false)
       if (response.ok) {
         // Handle successful submission here
         const jsonResponse = await response.json();
@@ -141,6 +145,7 @@ function App() {
                 className="child2 group rounded-lg border border-transparent px-5 py-4 transition-colors hover:bg-gray-100 hover:dark:bg-neutral-800/30"
                 type="submit"
                 style={{ marginTop: "18px", marginLeft: "10px" }}
+                disabled={loading}
               >
                 <Image src={micIcon} alt="Logo" width={80} height={80} />
               </button>
@@ -148,6 +153,7 @@ function App() {
                 style={{ marginLeft: "10px", marginTop: "23px" }}
                 className="child group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
                 type="submit"
+                disabled={loading}
               >
                 <p style={{ fontWeight: "bold", paddingBottom: "5px" }}>
                   Create Playlist{" "}
@@ -174,6 +180,8 @@ function App() {
             </label>
           </form>
 
+          <p className="playlistTitle" hidden={!loading}>Now generating...</p>
+        
           <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-full sm:before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full sm:after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]"></div>
 
           { data.summary ? <div className="playlistContainer">
@@ -192,7 +200,6 @@ function App() {
 
             <div className="child2" style={{ width: '80%'}}>
               <p className="playlistTitle">{data.title}</p>
-
               <p className="playlistDescription">{data.summary}</p>
             </div>
             <button

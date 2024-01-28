@@ -77,7 +77,7 @@ class EmotionalPlaylistGenerator:
         
     def playlist_description_generator(self, journal_entry):
         completion = self._make_request([
-            {"role": "system", "content": f"AI Summary Bot, your task is to create a Spotify playlist description based on a user's journal entry. Analyse the emotional nuances within the journal to understand the user's current mood. Your goal is to craft a short, emotive summary that encapsulates the mood of the music and connects deeply with the feelings expressed in the journal. The summary should be concise, capturing the essence of the playlist in a way that resonates with the user's emotional state as revealed in their journal. User’s journal entry: {journal_entry}"},
+            {"role": "system", "content": f"AI Summary Bot, your task is to create a Spotify playlist description based on a user's journal entry. Analyse the emotional nuances within the journal to understand the user's current mood. Your goal is to craft a short, emotive summary that encapsulates the mood of the music and connects deeply with the feelings expressed in the journal. The summary should be concise - no more than one sentence - capturing the essence of the playlist in a way that resonates with the user's emotional state as revealed in their journal. Output nothing but the playlist summary. User’s journal entry: {journal_entry}"},
             {"role": "user", "content": journal_entry}
         ])
 

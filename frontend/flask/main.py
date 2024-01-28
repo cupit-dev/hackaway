@@ -13,7 +13,7 @@ storage = {}
 
 # Enable to generate album covers with DALLE-3
 # This costs about 5p a pop, so use sparingly
-GENERATE_ARTWORK = False
+GENERATE_ARTWORK = True
 
 @app.route('/new_playlist', methods=['POST'])
 def on_new_playlist():
@@ -32,11 +32,11 @@ def on_upload_playlist(uuid):
     if uuid not in storage:
         return f'Playlist {uuid} not found', 400
     playlist = storage[uuid]
-    generator.upload_playlist(playlist)
+    remote_uuid = generator.upload_playlist(playlist)
     if playlist['artwork']:
-        # Upload artwork here
-        pass
+        generator.upload_cover_art(remote_uuid, playlist['artwork'])
     storage[uuid]['uploaded'] = True
+    storage[uuid]['remote_uuid'] = remote_uuid
     return 'Playlist added', 201
 
 
@@ -46,16 +46,6 @@ def on_playlist(uuid):
     if uuid not in storage:
         return f'Playlist {uuid} not found', 400
     return storage[uuid]
-    
-    # return uuid 
-
-@app.route('/cover_art/<uuid>')
-def on_playlist_(uuid):
-    '''Return a playlist image as a 512x512 base64 encoded jpeg. Generated on first request to save on API costs.'''
-    return {
-        'cover_art': 'ubsdfbgiafvnosnoaivmnasljdfnj;asfnasjkdfnaskldjfnlsadjf'
-    }
-
 
 
 if __name__ == "__main__":

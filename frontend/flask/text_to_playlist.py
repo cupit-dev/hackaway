@@ -37,7 +37,7 @@ class TextToPlaylist():
                     raise yaml.YAMLError
             
         if not sp:
-            auth_manager = SpotifyOAuth(client_id=self.spotify_auth['client_id'], client_secret=self.spotify_auth['secret'], redirect_uri='http://localhost:5000', scope='user-top-read,playlist-modify-private,user-read-private,user-read-email,ugc-image-upload')
+            auth_manager = SpotifyOAuth(client_id=self.spotify_auth['client_id'], client_secret=self.spotify_auth['secret'], redirect_uri='http://localhost:5000', scope='user-top-read,playlist-modify-private,playlist-modify-public,user-read-private,user-read-email,ugc-image-upload')
             self.sp = spotipy.Spotify(auth_manager=auth_manager)
 
         self.generator = EmotionalPlaylistGenerator(api_key=self.openai_key)
@@ -108,3 +108,9 @@ class TextToPlaylist():
         user_id = self.sp.me()['id']
         remote = self.sp.user_playlist_create(user=user_id, name=title, public=False, description=playlist['summary'])
         self.sp.playlist_add_items(remote['id'], [track['id'] for track in playlist['tracks']])
+        return remote['id']
+
+
+    def upload_cover_art(self, uuid, artwork):
+        self.sp.playlist_upload_cover_image(uuid, artwork)
+

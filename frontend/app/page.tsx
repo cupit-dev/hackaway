@@ -21,6 +21,7 @@ function App() {
     summary: "",
     title: "",
     uuid: "",
+    artwork: "",  //base64 encoded jpg
     tracks: [
       {
         name: "",
@@ -82,6 +83,7 @@ function App() {
           summary: jsonResponse.summary,
           title: jsonResponse.title,
           uuid: jsonResponse.uuid,
+          artwork: jsonResponse.artwork,
           tracks: tracks,
         });
       } else {
@@ -148,7 +150,7 @@ function App() {
           <div className="playlistContainer">
             <Image
               className="child2"
-              src={playlistCover}
+              src={data.artwork ? "data:image/jpeg;base64," + data.artwork : playlistCover}
               alt="Logo"
               width={100}
               height={100}

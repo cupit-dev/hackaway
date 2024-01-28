@@ -79,7 +79,7 @@ section3 = """
 <center>
 <|{dataset}|table|page_size=10|height=500px|width=65%|>
 </center>
-<center> <h2>Data</h2><|{download_data}|file_download|on_action=download|>
+<center><|{download_data}|file_download|on_action=download|>
 </center>
 
 <br/>

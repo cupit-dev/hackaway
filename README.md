@@ -29,7 +29,7 @@ You will need recent versions of NodeJS and Python installed to run Sentiment.
 	```bash
 	# In frontend/flask
 	$ python -m venv venv
-	$ source venv/bin/activate
+	$ source venv/bin/activate (For Windows, use: .\venv\Scripts\activate)
 	$ pip install -r requirements.txt
 	$ python main.py
 	```

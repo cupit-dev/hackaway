@@ -22,11 +22,11 @@ class EmotionalPlaylistGenerator:
         }
 
         self.emotions = [
-            "anxiety", 
-            "gratitude",
-            "pessimism",
-            "contentment",
-            "positivity",
+            "Anxiety", 
+            "Gratitude",
+            "Pessimism",
+            "Contentment",
+            "Positivity",
         ]
 
     def _rate_limit_check(self):

@@ -187,10 +187,10 @@ function App() {
               alt="Logo"
               width={100}
               height={100}
-              style={{ marginRight: "10px" }}
+              style={{ marginRight: "12px" }}
             />
 
-            <div className="child2">
+            <div className="child2" style={{ width: '80%'}}>
               <p className="playlistTitle">{data.title}</p>
 
               <p className="playlistDescription">{data.summary}</p>
@@ -204,6 +204,8 @@ function App() {
               <Image src={saveLogo} alt="Logo" width={100} height={100} />
             </button>
             <br></br>
+            <br></br>
+
             {data.tracks.map((item) => (
               <div className="trackContainer">
                 <Image

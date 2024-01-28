@@ -1,6 +1,5 @@
 # Import flask and datetime module for showing date and time
 from flask import Flask, jsonify, request
-import datetime
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -40,21 +39,6 @@ def on_playlist_():
         'cover_art': 'ubsdfbgiafvnosnoaivmnasljdfnj;asfnasjkdfnaskldjfnlsadjf'
     }
 
-@app.route("/")
-def hello_world():
-    return "Hello, World!"
-
-# Route for seeing data
-@app.route('/data')
-def get_time():
-    x = datetime.datetime.now()  # Get the current time when this route is accessed
-    # Returning an API response for showing in ReactJS
-    return jsonify({
-        'Name': "geek",
-        "Age": "22",
-        "Date": x.strftime("%Y-%m-%d %H:%M:%S"),  # Format datetime as a string
-        "programming": "python"
-    })
 
 @app.route('/feeling', methods=['POST'])
 def handle_data():

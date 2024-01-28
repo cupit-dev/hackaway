@@ -2,10 +2,12 @@ import os
 import sys
 import uuid
 
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from text_to_playlist import TextToPlaylist
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 generator = TextToPlaylist(secrets_file='./secrets.yaml')
 storage = {}
 
@@ -13,10 +15,13 @@ storage = {}
 def on_new_playlist():
     '''Given a journal entry, generate a playlist and return a UUID used to access it'''
     prompt = request.json['prompt']
+    print('please work', prompt)
     results = generator.text_to_song_list(prompt)
     id = str(uuid.uuid4())
     storage[id] = results
-    return {'uuid': id}
+
+    return on_playlist(id)
+    # return {'uuid': id}
     
 
 @app.route('/playlist/<uuid>/upload', methods=['GET', 'POST'])

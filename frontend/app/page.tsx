@@ -44,13 +44,12 @@ function App() {
   const handleSubmit = async (e: any) => {
     e.preventDefault(); // Prevent default form submission behavior
     try {
-      const response = await fetch("http://localhost:5000/feeling", {
-        // Replace with your Flask endpoint
+      const response = await fetch("http://localhost:5001/new_playlist", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ data: inputValue }), // Send the state value as JSON
+        body: JSON.stringify({ prompt: inputValue }), // Send the state value as JSON
       });
       if (response.ok) {
         // Handle successful submission here

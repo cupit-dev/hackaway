@@ -84,3 +84,7 @@ body {
   margin-top: 5px;
   color: black;
 }
+
+.hover:hover {
+  text-decoration: underline;
+}
